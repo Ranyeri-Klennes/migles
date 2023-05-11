@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'screens/home_page_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
+  // Este widget é a raiz do seu aplicativo.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,27 +17,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.amber, // RGB color ccff00
-      ),
+      home: const HomePageScreen(
+          title:
+              'Flutter Demo Home Page'), // Definindo MyHomePage como a tela inicial
     );
   }
 }
