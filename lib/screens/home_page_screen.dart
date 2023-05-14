@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
-class HomePageScreen extends StatelessWidget {
-  const HomePageScreen({Key? key, required String title}) : super(key: key);
+class HomePageScreen extends StatefulWidget {
+  final String title;
+
+  const HomePageScreen({Key? key, required this.title}) : super(key: key);
 
   @override
+  State<HomePageScreen> createState() => _HomePageScreenState();
+}
+
+class _HomePageScreenState extends State<HomePageScreen> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.amber[100], // Definindo a cor de fundo para amber[100]
-      ),
-    );
+    return Container(color: Colors.amber);
   }
 }
