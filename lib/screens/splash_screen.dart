@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:migles/colors.dart';
 
-import 'home_page_screen.dart';
+import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const HomePageScreen(title: 'Migles'),
+          builder: (context) => const LoginScreen(title: 'Migles'),
         ),
       );
     });
@@ -26,10 +27,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amber,
+      backgroundColor: MyColorsLightMode.bgApp,
       body: Center(
         child: Image.asset('assets/animations/migles_animation.gif'),
       ),
     );
   }
 }
+
+//  Melhorar o Splash :
+// https://developer.android.com/develop/ui/views/launch/splash-screen
