@@ -8,7 +8,8 @@ class MyLogo extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 30, top: 80),
       child: Image.asset(
-        'assets/icons/Migles_transp.png',
+        // 'assets/icons/Migles_transp.png',
+        'assets/animations/migles_animation.gif',
         height: 250,
         width: 250,
       ),

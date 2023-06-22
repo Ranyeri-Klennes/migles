@@ -14,11 +14,16 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _showSplash = true;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
+    startSplashScreen();
+  }
+
+  void startSplashScreen() {
+    Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         _showSplash = false;
       });
@@ -29,63 +34,86 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColorsLightMode.colorBackgroundApp,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Column(
-              children: [
-                const MyLogo(),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 42),
-                  child: TextFieldNeumorphic(
-                    hintText: 'email',
-                    validator: (value) {
-                      RegExp regex = RegExp(
-                          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-                      if (!regex.hasMatch(value!)) {
-                        return 'Enter Valid Email';
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 27, horizontal: 42),
-                  child: TextFieldNeumorphic(
-                    obscureText: true,
-                    hintText: 'senha',
-                    validator: (value) {
-                      RegExp regex = RegExp(r'^[a-zA-Z0-9]+$');
-                      if (!regex.hasMatch(value!)) {
-                        return 'Enter a valid password (No special characters)';
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                ),
-                const SizedBox(height: 100),
-                ButtonNeumorphic(
-                  text: 'Entrar',
-                  fontSize: 50,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProfileScreen()),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
+      body: buildBody(),
+    );
+  }
+
+  Widget buildBody() {
+    return SingleChildScrollView(
+      child: AnimatedOpacity(
+        opacity: _showSplash ? 0.0 : 1,
+        duration: const Duration(seconds: 2),
+        child: buildColumn(),
       ),
+    );
+  }
+
+  Widget buildColumn() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const MyLogo(),
+          const SizedBox(height: 10),
+          buildEmailField(),
+          buildPasswordField(),
+          const SizedBox(height: 100),
+          buildLoginButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget buildEmailField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 35),
+      child: TextFieldNeumorphic(
+        hintText: 'e-mail',
+        validator: (value) {
+          RegExp regex = RegExp(
+              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+          if (!regex.hasMatch(value!)) {
+            return 'E-mail Inválido!';
+          } else {
+            return null;
+          }
+        },
+      ),
+    );
+  }
+
+  Widget buildPasswordField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 35),
+      child: TextFieldNeumorphic(
+        obscureText: true,
+        hintText: 'senha',
+        validator: (value) {
+          RegExp regex = RegExp(r'^[a-zA-Z0-9]+$');
+          if (!regex.hasMatch(value!)) {
+            return 'Senha Inválida (não coloque caracteres especiais)';
+          } else {
+            return null;
+          }
+        },
+      ),
+    );
+  }
+
+  Widget buildLoginButton() {
+    return ButtonNeumorphic(
+      text: 'Entrar',
+      fontSize: 50,
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ProfileScreen()),
+          );
+        }
+      },
     );
   }
 }
